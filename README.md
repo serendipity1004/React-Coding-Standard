@@ -10,13 +10,11 @@
 
 ## Basics <a id="basics"></a>
 
-### Variables <a id="basics-variables"></a>
+### 1. Declarations <a id="basics-variables"></a>
 
-#### Declaration
+### `Declaration`
 
 Variable declaration is always done with `let`. `var` jeopardizes the restricted scope provided by `let` so it will never be used unless it is absolutely necessary.
-
-##### Example
 
 ```jsx
 import React from 'react';
@@ -42,11 +40,9 @@ class ExampleClass extends React.Component(){
 }
 ```
 
-#### Functions
+### `Functions`
 
 Use ES6 arrow functions unless `this` needs to be scoped.
-
-##### Example
 
 ```jsx
 let members =
@@ -72,9 +68,9 @@ let findSeulki = (members) => {
 findSeulki(members);
 ```
 
-#### Object
+### `Object`
 
-1. Default
+1. `Default`
 
 ```jsx
 let seulki = 
@@ -93,9 +89,9 @@ let seulki = {
     }
 ```
 
-#### Array
+### `Array`
 
-1. Default
+1. `Default`
 
 ```jsx
 let redVelvet = ['seulki', 'irene', 'yaeri', 'joy', 'wendy'];
@@ -122,7 +118,7 @@ let redVelvet = [
     ]
 ```
 
-2. Array of Objects
+2. `Array of Objects`
 
 ```jsx
 //DECLARE LIKE THIS
@@ -165,11 +161,11 @@ let redVelvet = [{
     ]
 ```
 
-#### Spread ES7 syntax
+### `Spread ES7 syntax`
 
-1. Spread All
+1. `Spread All`
 
-##### Objects
+#### `Objects`
 
 ```jsx
 let seulki =
@@ -185,7 +181,7 @@ let seulkiUpdated =
     };
 ```
 
-##### Arrays
+#### `Arrays`
 
 ```jsx
 let redVelvet = (seulki, irene, joy, yaeri, wendy) => {
@@ -221,9 +217,9 @@ redVelvet(...members);
 
 ### Exports <a id="basics-exports"></a>
 
-#### Components
+### `Components`
 
-1. Default Component
+1. `Default Component`
 
 ```jsx
 import React from 'react';
@@ -237,7 +233,7 @@ export default class ExampleComponent extends React.Component{
 }
 ```
 
-2. Material UI Component
+2. `Material UI Component`
 
 ```jsx
 import React from 'react';
@@ -261,7 +257,7 @@ class MaterialUiClass extends React.Component{
 export default withStyles(styles)(MaterialUiClass);
 ```
 
-3. React Redux
+3. `React Redux`
 
 ```jsx
 
@@ -286,7 +282,7 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {yourAction})(MaterialUiClass);
 ```
 
-4. React Redux with Material Ui
+4. `React Redux with Material Ui`
 
 ```jsx
 import React from 'react';
@@ -315,11 +311,9 @@ function mapStateToProps(state) {
 export default withStyles(styles)(connect(mapStateToProps, {yourAction})(MaterialUiClass))
 ```
 
-#### Action Types
+### `Action Types`
 
 Each action type is exported as a `const`. All actions are imported together with `import * as TYPES from '/path'` and individual types are fetched by `TYPES.[actionType]`
-
-##### Example
 
 ```jsx
 /**
