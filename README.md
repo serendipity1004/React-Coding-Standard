@@ -89,7 +89,7 @@ let seulki = {
 
 - ### Array
 
-- `Default`
+    - `Default`
 
 ```jsx
 let redVelvet = ['seulki', 'irene', 'yaeri', 'joy', 'wendy'];
@@ -116,7 +116,7 @@ let redVelvet = [
     ]
 ```
 
-- `Array of Objects`
+    - `Array of Objects`
 
 ```jsx
 //DECLARE LIKE THIS
