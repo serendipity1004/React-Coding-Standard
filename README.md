@@ -2,17 +2,13 @@
 
 ## Table of Contents
 
-1. [Basics](#basics)
-    1. [Declarations](#basics-variables)
-    2. [Exports](#basics-exports)
-    3. [Imports](#basics-imports)
+1. [Declarations](#basics-variables)
+2. [Exports](#basics-exports)
+3. [Imports](#basics-imports)
 
+## 1. Declarations <a id="basics-variables"></a>
 
-## Basics <a id="basics"></a>
-
-### 1. Declarations <a id="basics-variables"></a>
-
-- ### `Variables`
+- ## `Variables`
 
 Variable declaration is always done with `let`. `var` jeopardizes the restricted scope provided by `let` so it will never be used unless it is absolutely necessary.
 
@@ -40,7 +36,7 @@ class ExampleClass extends React.Component(){
 }
 ```
 
-- ### Functions
+- ## Functions
 
 Use ES6 arrow functions unless `this` needs to be scoped.
 
@@ -116,7 +112,7 @@ let redVelvet = [
     ]
 ```
 
-    - `Array of Objects`
+   - `Array of Objects`
 
 ```jsx
 //DECLARE LIKE THIS
