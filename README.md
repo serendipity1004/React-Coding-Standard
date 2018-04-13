@@ -12,7 +12,7 @@
 
 ### 1. Declarations <a id="basics-variables"></a>
 
-### `Declaration`
+- ### `Declaration`
 
 Variable declaration is always done with `let`. `var` jeopardizes the restricted scope provided by `let` so it will never be used unless it is absolutely necessary.
 
