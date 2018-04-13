@@ -6,9 +6,7 @@
 2. [Exports](#basics-exports)
 3. [Imports](#basics-imports)
 
-## 1. Declarations <a id="basics-variables"></a>
-
-- ## `Variables`
+## Variables
 
 Variable declaration is always done with `let`. `var` jeopardizes the restricted scope provided by `let` so it will never be used unless it is absolutely necessary.
 
@@ -36,7 +34,7 @@ class ExampleClass extends React.Component(){
 }
 ```
 
-- ## Functions
+## Functions
 
 Use ES6 arrow functions unless `this` needs to be scoped.
 
@@ -64,7 +62,7 @@ let findSeulki = (members) => {
 findSeulki(members);
 ```
 
-- ### Object
+## Object
 
 ```jsx
 let seulki = 
@@ -83,9 +81,9 @@ let seulki = {
     }
 ```
 
-- ### Array
+## Array
 
-    - `Default`
+- ***`Default`***
 
 ```jsx
 let redVelvet = ['seulki', 'irene', 'yaeri', 'joy', 'wendy'];
@@ -112,7 +110,7 @@ let redVelvet = [
     ]
 ```
 
-   - `Array of Objects`
+- ***`Array of Objects`***
 
 ```jsx
 //DECLARE LIKE THIS
@@ -155,11 +153,10 @@ let redVelvet = [{
     ]
 ```
 
-- ### `Spread ES7 syntax`
+## Spread ES7 syntax
 
-    1. `Spread All`
 
-- #### `Objects`
+- ***`Objects`***
 
 ```jsx
 let seulki =
@@ -175,7 +172,7 @@ let seulkiUpdated =
     };
 ```
 
-- #### `Arrays`
+- ***`Arrays`***
 
 ```jsx
 let redVelvet = (seulki, irene, joy, yaeri, wendy) => {
@@ -209,11 +206,10 @@ let members =
 redVelvet(...members);
 ```
 
-### Exports <a id="basics-exports"></a>
+## Exports <a id="basics-exports"></a>
 
-- ### `Components`
+- ***`Default Components`***
 
-    1. `Default Component`
 
 ```jsx
 import React from 'react';
@@ -227,7 +223,7 @@ export default class ExampleComponent extends React.Component{
 }
 ```
 
-   2. `Material UI Component`
+- ***`Material UI Components`***
 
 ```jsx
 import React from 'react';
@@ -251,7 +247,7 @@ class MaterialUiClass extends React.Component{
 export default withStyles(styles)(MaterialUiClass);
 ```
 
-   3. `React Redux`
+- ***`React Redux Components`***
 
 ```jsx
 
@@ -276,7 +272,7 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {yourAction})(MaterialUiClass);
 ```
 
-   4. `React Redux with Material Ui`
+- ***`React Redux with Material UI Components`***
 
 ```jsx
 import React from 'react';
@@ -305,9 +301,99 @@ function mapStateToProps(state) {
 export default withStyles(styles)(connect(mapStateToProps, {yourAction})(MaterialUiClass))
 ```
 
-- ### `Action Types`
+## Imports <a id="basics-imports"></a>
+
+- ***`Default`***
+
+```jsx
+import React from 'react';
+import module from './path/to/module';
+
+//Do not use require. For example.
+const React = require('react');
+```
+
+- ***`ES6 Imports`***
+
+```jsx
+import {connect} from 'react-redux';
+
+//Do not use require. For example
+const connect = require('react').connect;
+```
+
+- ***`Material UI Component Imports`***
+
+Import the components of the same class using `ES6 syntax`
+
+```jsx
+import Avatar from 'material-ui/Avatar';
+import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
+```
+
+## Asynchronous Requests
+
+Use the `axios` library as the standard HTTP(S) communication with the server. Only use `async/await` for asynchronous requests. Try to minimize the indentation as much as possible.
+
+-***`Default`***
+```jsx
+import React from 'react';
+import axios from 'axios';
+
+class AsyncRequest extends React.Component {
+
+	//Use Asyn/Await for every async requests.
+	async retrieveAsyncData(){
+    	try{
+    		let response = axios.get('/path/to/the/api');
+        }catch(e){
+        	//TODO error handling
+        }
+    }
+    
+    //DO NOT directly use promises or callbacks. For Example
+    retrieveAsyncData(){
+    	axios.get('/path/to/the/api').then((response)=>{
+        	console.log(response)
+        })
+        
+        //OR
+        axios.get('/path/to/the/api', (response)=>{
+        	console.log(response)
+        })
+
+    }
+
+    render() {
+        return (
+            <div>Red Velvet Seulki</div>
+        )
+    }
+}
+```
+
+-***`Async/Awaitifying`***
+
+If `promise` return is not available in certain package or function, convert it into a promise yourself in the `services` directory.
+
+```jsx
+let timeoutFunction = () => {
+	return new Promise((resolve, reject) => {
+    	setTimeout(resolve, 3000);
+    })
+}
+
+//Then use as async/await like below
+let asyncFunction = async () => {
+	await timeoutFunction();
+}
+```
+
+## Action Types
 
 Each action type is exported as a `const`. All actions are imported together with `import * as TYPES from '/path'` and individual types are fetched by `TYPES.[actionType]`
+
+-***`Exports`***
 
 ```jsx
 /**
@@ -343,5 +429,98 @@ export const FETCHED_TRANSACTION_TREND = 'fetched_transaction_trend';
 export const FETCHED_TRANSACTION_HISTORY = 'fetched_transaction_history';
 ```
 
-### Imports <a id="basics-imports"></a>
+-***`Imports`***
+
+```jsx
+import * as TYPES from './path/to/types';
+
+//Use like following
+dispatch({type:TYPES.FETCHED_TRANSACTION_TREND, payload:data});
+```
+## Actions and Reducers
+
+- ***`Actions`***
+
+Always use action types constants as the `dispatch` type so as to make sure there is no overlap in the type naming. Make all server requests through `actions` and `reducers` instead of directly using `axios` within `components` or `containers` for better code organization.
+
+```jsx
+import axios from 'axios';
+import * as TYPES from './types';
+
+export function registerUser(username, password, referee, account) {
+
+    return async dispatch => {
+    	try{
+          let response = await axios.post(`/api/auth/register`, {username, password, referee, account});
+
+          if(response.status !== 200){
+              //TODO error handling
+          }
+
+          /**
+          * Response
+          *  {
+          *      error: {
+          *          stack: String,
+          *          message: String
+          *      },
+          *      success: Boolean,
+          *      data: Object
+          *  }
+          * */
+
+          dispatch({type: TYPES.REGISTERED_USER, payload: response})
+      }catch(e){
+      	//TODO error handling
+      }
+    }
+}
+```
+
+- ***`Reducers`***
+
+Remmeber to use only pure functions for `redux`
+
+```jsx
+import * as TYPES from '../actions/types';
+
+export default function (state = {}, action) {
+    switch (action.type) {
+
+        /**
+         * Register Payload
+         *  {
+         *      error: {
+         *          stack: String,
+         *          message: String
+         *      },
+         *      success: Boolean,
+         *      data: Object
+         *  }
+         * */
+
+        case TYPES.REGISTERED_USER:
+            return {
+                ...state,
+                data:action.payload.data
+            };
+
+        default:
+            return state;
+    }
+}
+```
+
+-***`Combining Reducers`***
+
+For the convenience of retrieval and usage, use `combineReducers` to maintain different set of states for each `reducer`
+
+```jsx
+import authReducer from './authReducer';
+
+export default combineReducers({
+	//Result from authReducer will be available at path state.auth.[key]
+    auth: authReducer
+})
+```
 
