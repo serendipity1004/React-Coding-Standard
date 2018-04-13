@@ -12,7 +12,7 @@
 
 ### 1. Declarations <a id="basics-variables"></a>
 
-- ### `Declaration`
+- ### `Variables`
 
 Variable declaration is always done with `let`. `var` jeopardizes the restricted scope provided by `let` so it will never be used unless it is absolutely necessary.
 
@@ -40,7 +40,7 @@ class ExampleClass extends React.Component(){
 }
 ```
 
-- ### `Functions`
+- ### Functions
 
 Use ES6 arrow functions unless `this` needs to be scoped.
 
@@ -68,9 +68,7 @@ let findSeulki = (members) => {
 findSeulki(members);
 ```
 
-- ### `Object`
-
-    1. `Default`
+- ### Object
 
 ```jsx
 let seulki = 
@@ -89,9 +87,9 @@ let seulki = {
     }
 ```
 
-- ### `Array`
+- ### Array
 
-1. `Default`
+- `Default`
 
 ```jsx
 let redVelvet = ['seulki', 'irene', 'yaeri', 'joy', 'wendy'];
@@ -118,7 +116,7 @@ let redVelvet = [
     ]
 ```
 
-    2. `Array of Objects`
+- `Array of Objects`
 
 ```jsx
 //DECLARE LIKE THIS
@@ -233,7 +231,7 @@ export default class ExampleComponent extends React.Component{
 }
 ```
 
-    2. `Material UI Component`
+   2. `Material UI Component`
 
 ```jsx
 import React from 'react';
@@ -257,7 +255,7 @@ class MaterialUiClass extends React.Component{
 export default withStyles(styles)(MaterialUiClass);
 ```
 
-    3. `React Redux`
+   3. `React Redux`
 
 ```jsx
 
@@ -282,7 +280,7 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {yourAction})(MaterialUiClass);
 ```
 
-    4. `React Redux with Material Ui`
+   4. `React Redux with Material Ui`
 
 ```jsx
 import React from 'react';
