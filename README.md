@@ -2,9 +2,31 @@
 
 ## Table of Contents
 
-1. [Declarations](#basics-variables)
-2. [Exports](#basics-exports)
-3. [Imports](#basics-imports)
+... In Progress
+
+## FS
+
+```
+. root
++-- public
++-- src
+    +-- assets //all assets that are directly imported to the page
+        +-- img //images
+    +-- components //React component instances that do not interact directly with redux
+        +-- componentName //General name of a group of components e.g. Cards
+            +-- componentName.js //JS file of the specific component e.g. ChartCard.js
+        +-- index.js //Where all components get import and exported all together
+    +-- containers //These are React components that interact directly with redux
+        +-- containerName
+            +-- containerName.js
+    +-- routes
+        +-- routeTarget.js //Where the routes will be imported to
+        +-- index.js //Where all the routes under routes folder will be imported and exported all together
+    +-- views //Views contain all the components and containers in a specific page.
+        +-- ViewName //Camel casing with captial start
+            +-- Viewname.js //Camel casing with capital start
+```
+
 
 ## Variables
 
@@ -206,7 +228,7 @@ let members =
 redVelvet(...members);
 ```
 
-## Exports <a id="basics-exports"></a>
+## Exports <a id='basics-exports'></a>
 
 - ***`Default Components`***
 
@@ -301,7 +323,7 @@ function mapStateToProps(state) {
 export default withStyles(styles)(connect(mapStateToProps, {yourAction})(MaterialUiClass))
 ```
 
-## Imports <a id="basics-imports"></a>
+## Imports <a id='basics-imports'></a>
 
 - ***`Default`***
 
@@ -335,7 +357,7 @@ import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
 
 Use the `axios` library as the standard HTTP(S) communication with the server. Only use `async/await` for asynchronous requests. Try to minimize the indentation as much as possible.
 
--***`Default`***
+- ***`Default`***
 ```jsx
 import React from 'react';
 import axios from 'axios';
@@ -372,7 +394,7 @@ class AsyncRequest extends React.Component {
 }
 ```
 
--***`Async/Awaitifying`***
+- ***`Async/Awaitifying`***
 
 If `promise` return is not available in certain package or function, convert it into a promise yourself in the `services` directory.
 
@@ -389,11 +411,108 @@ let asyncFunction = async () => {
 }
 ```
 
+## Class PropTypes
+
+Define all props of class using `prop-types`
+
+```jsx
+import React from 'react';
+import {
+    withStyles,
+    Card,
+    CardContent,
+    CardHeader,
+    CardActions,
+    Typography
+} from 'material-ui';
+import PropTypes from 'prop-types';
+
+import chartCardStyle from 'variables/styles/chartCardStyle';
+
+function ChartCard({...props}) {
+    const {
+        classes,
+        chartColor,
+        statIconColor,
+        chart,
+        title,
+        text,
+        statLink,
+        statText
+    } = props;
+
+    return (
+        <Card className={classes.card}>
+            <CardHeader
+                className={
+                    classes.cardHeader + ' ' + classes[chartColor + 'CardHeader']
+                }
+                subheader={chart}
+            />
+            <CardContent className={classes.cardContent}>
+                <Typography variant='title' component='h4' className={classes.cardTitle}>
+                    {title}
+                </Typography>
+                <Typography component='p' className={classes.cardCategory}>
+                    {text}
+                </Typography>
+            </CardContent>
+            <CardActions className={classes.cardActions}>
+                <div className={classes.cardStats}>
+                    <props.statIcon
+                        className={
+                            classes.cardStatsIcon +
+                            ' ' +
+                            classes[statIconColor + 'CardStatsIcon']
+                        }
+                    />
+                    {' '}
+                    {statLink !== undefined ? (
+                        <a href={statLink.href} className={classes.cardStatsLink}>
+                            {statLink.text}
+                        </a>
+                    ) : statText !== undefined ? (
+                        statText
+                    ) : null}
+                </div>
+            </CardActions>
+        </Card>
+    );
+}
+
+ChartCard.defaultProps = {
+    statIconColor: 'gray',
+    chartColor: 'purple'
+};
+
+ChartCard.propTypes = {
+    classes: PropTypes.object.isRequired,
+    chart: PropTypes.object.isRequired,
+    title: PropTypes.node,
+    text: PropTypes.node,
+    statIcon: PropTypes.func.isRequired,
+    statIconColor: PropTypes.oneOf([
+        'warning',
+        'primary',
+        'danger',
+        'success',
+        'info',
+        'rose',
+        'gray'
+    ]),
+    chartColor: PropTypes.oneOf(['orange', 'green', 'red', 'blue', 'purple']),
+    statLink: PropTypes.object,
+    statText: PropTypes.node
+};
+
+export default withStyles(chartCardStyle)(ChartCard);
+```
+
 ## Action Types
 
 Each action type is exported as a `const`. All actions are imported together with `import * as TYPES from '/path'` and individual types are fetched by `TYPES.[actionType]`
 
--***`Exports`***
+- ***`Exports`***
 
 ```jsx
 /**
@@ -429,7 +548,7 @@ export const FETCHED_TRANSACTION_TREND = 'fetched_transaction_trend';
 export const FETCHED_TRANSACTION_HISTORY = 'fetched_transaction_history';
 ```
 
--***`Imports`***
+- ***`Imports`***
 
 ```jsx
 import * as TYPES from './path/to/types';
@@ -511,7 +630,7 @@ export default function (state = {}, action) {
 }
 ```
 
--***`Combining Reducers`***
+- ***`Combining Reducers`***
 
 For the convenience of retrieval and usage, use `combineReducers` to maintain different set of states for each `reducer`
 
@@ -524,3 +643,86 @@ export default combineReducers({
 })
 ```
 
+## Managing Routes
+
+- ***`views/RedVelvet/Seulki.js`***
+
+Create view container using components (notice that views can act as containers and has access to `redux`)
+
+```jsx
+import React from 'react';
+import {connect} from 'react-redux';
+
+import {
+    //import all components
+} from 'components';
+
+import seulkiStyle from 'variables/styles/seulkiStyle';
+
+class Seulki extends React.Component {
+
+  render() {
+    return (
+      <div>
+        I am Seulki
+      </div>
+    );
+  }
+}
+
+fucntion mapStateToProps(){
+    return {
+        //State declaration
+    }
+}
+
+export default withStyles(seulkiStyle)(connect(mapStateToProps)(Seulki));
+```
+
+- ***`routes/app.js`***
+
+import all the views from 'views' folder
+
+```jsx
+import SeulkiPage from 'views/Seulki/Seulki.js';
+import IrenePage from 'views/Irene/Irene.js';
+
+//We may introduce more properties here but that is for future discussion
+const appRoutes = [
+  {
+    path:'/seulki',
+    component:SeulkiPage
+  },
+  {
+    path:'/irene',
+    component:IrenePage
+  }
+];
+
+export default appRoutes;
+```
+
+- ***`containers/App/App.js`***
+
+Map routes to `Route` components
+
+```jsx
+import appRoutes from 'routes/app.jsx'
+import {Switch, Route} from 'react-router-dom'
+
+const switchRoutes = (
+    <Switch>
+        {appRoutes.map((route, index)=>{
+            <Route path={route.path} component={prop.component} key={index}/>
+        })}
+    </Switch>
+)
+
+export default class App extends React.Component {
+    render(){
+        <div>
+            {switchRoutes}
+        </div>
+    }
+}
+```
